@@ -1,5 +1,6 @@
 ﻿using AbstractAccountApi;
 using Google.Apis.Admin.Directory.directory_v1.Data;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -71,6 +72,7 @@ namespace GoogleApi
                             }
                         }
                     }
+                    
                     Error.AddMessage("Added " + count.ToString() + " Accounts");
                     return true;
                 }
@@ -141,7 +143,7 @@ namespace GoogleApi
 
             if (user.OrgUnitPath != null && user.OrgUnitPath.Equals("/personeel"))
             {
-                result.IsStaf = true;
+                result.IsStaff = true;
             }
 
             return result;
@@ -161,7 +163,7 @@ namespace GoogleApi
             user.PrimaryEmail = account.Mail;
             user.Password = password;
 
-            if (account.IsStaf)
+            if (account.IsStaff)
             {
                 user.OrgUnitPath = "/personeel";
             }
@@ -264,6 +266,34 @@ namespace GoogleApi
             return result;
         }
 
+        #endregion
+
+        #region JSON
+        public static JObject ToJson()
+        {
+            JObject result = new JObject();
+            JArray arr = new JArray();
+            foreach(var user in allUsers.Values)
+            {
+                arr.Add(user.ToJson());
+            }
+            result["accounts"] = arr;
+            return result;
+        }
+
+        public static void FromJson(JObject obj)
+        {
+            allUsers = new Dictionary<string, Account>();
+            if(obj.ContainsKey("accounts"))
+            {
+                 var accounts = obj["accounts"].ToArray();
+                foreach(var account in accounts)
+                {
+                    var acc = new Account(account as JObject);
+                    allUsers.Add(acc.UID, acc);
+                }
+            }
+        }
         #endregion
     }
 }

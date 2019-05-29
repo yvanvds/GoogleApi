@@ -59,6 +59,7 @@ namespace GoogleApi
 
             try
             {
+                
                 credential = new ServiceAccountCredential(
                     new ServiceAccountCredential.Initializer(ID, token)
                     {
