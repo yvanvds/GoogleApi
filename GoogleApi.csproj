@@ -69,7 +69,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\AbstractAccountApi\AbstractAccountApi\AbstractAccountApi.csproj">
+    <ProjectReference Include="..\AbstractAccountApi\AbstractAccountApi\AbstractAccountApi.csproj">
       <Project>{3d771ccf-96a7-4ffa-82e5-4ba9d870dcbb}</Project>
       <Name>AbstractAccountApi</Name>
     </ProjectReference>
